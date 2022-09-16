@@ -73,7 +73,7 @@ if __name__ == '__main__':
             logging.error("未找到最后一次学习的信息，无法自动获取姓名/学号/工号，请手动输入")
             exit(1)
         logging.warning('未指定姓名/学号/工号，将使用最后一次学习的信息')
-        card_no = last_study_info.get("card_no")
+        card_no = last_study_info.get("cardNo")
 
     logging.info("正在尝试提交记录...")
     ret = qcshService.updateStudyRecord(nid, card_no, subOrg)
