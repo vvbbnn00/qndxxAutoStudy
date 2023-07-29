@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录结果</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=11" id="mixia_vpid">
+    <style>
+        body {
+            display: flex;
+            align-content: center;
+            align-items: center;
+            justify-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            text-align: center;
+            max-width: 400px;
+            padding: 10px;
+        }
+
+        .login_data {
+            padding: 10px;
+        }
+
+        .copyable {
+            background-color: azure;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px;
+            cursor: pointer;
+            word-break: break-all;
+            line-break: anywhere;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <h2>登录结果</h2>
+    <p>微信昵称：<code id="nickname">加载中...</code></p>
+    <p>微信头像</p>
+    <img id="avatar" src="" alt="avatar">
+    <h2>使用方法</h2>
+
+    <div class="login_data">
+        <p>以下内容为您的登录参数(Token)，您可以复制后调用<code>script.py [login_data]</code>完成学习
+            ，脚本的完整调用方法请参照<code>README.md</code>。</p>
+        <div class="copyable" onclick="copy()">
+            <code id="token">Loading...</code>
+        </div>
+    </div>
+
+</div>
+<script>
+    const url = new URL(location.href);
+    const nickname = url.searchParams.get('nickname')
+    const avatar = url.searchParams.get('headimg')
+    const token_raw = {}
+    for (const [key, value] of url.searchParams.entries()) {
+        token_raw[key] = value
+    }
+    const token = btoa(JSON.stringify(token_raw))
+
+    document.getElementById("nickname").innerText = nickname;
+    document.getElementById("avatar").src = avatar;
+    document.getElementById("token").innerText = token;
+
+    function copy() {
+        const input = document.createElement('input');
+        input.setAttribute('readonly', 'readonly');
+        input.setAttribute('value', token);
+        document.body.appendChild(input);
+        input.select();
+        if (document.execCommand('copy')) {
+            document.execCommand('copy');
+            alert('复制成功');
+        }
+        document.body.removeChild(input);
+    }
+</script>
+</body>
+</html>

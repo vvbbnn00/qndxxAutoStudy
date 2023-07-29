@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>请使用微信扫码</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=11" id="mixia_vpid">
+    <script src="/static/qrcode.js"></script>
+    <style>
+        .content {
+            text-align: center;
+            max-width: 500px;
+            padding: 10px;
+        }
+
+        #qrcode {
+            display: flex;
+            align-content: center;
+            align-items: center;
+            justify-items: center;
+            justify-content: center;
+        }
+
+        body {
+            display: flex;
+            align-content: center;
+            align-items: center;
+            justify-items: center;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+<body>
+<div class="content">
+    <h1>青年大学习自动完成助手</h1>
+    <h2>请使用微信扫码获取Token</h2>
+    <div id="qrcode"></div>
+    <p><a href="https://github.com/vvbbnn00/qndxxAutoStudy">Github</a></p>
+</div>
+<script>
+    const LOCAL_URL = `${location.protocol}//${location.host}/result.html`
+    const QCSH_OAUTH_INFO_URL = `https://wx.yunban.cn/wx/oauthInfoCallback?r_uri=${encodeURIComponent(LOCAL_URL)}&source=common`
+    const qrcode = new QRCode("qrcode", {
+        text: QCSH_OAUTH_INFO_URL,
+        width: 256,
+        height: 256,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+</script>
+</body>
+</html>
