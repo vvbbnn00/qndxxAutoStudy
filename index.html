@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>请使用微信扫码</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=11" id="mixia_vpid">
-    <script src="/static/qrcode.js"></script>
+    <script src="./static/qrcode.js"></script>
     <style>
         .content {
             text-align: center;
@@ -38,7 +38,12 @@
     <p><a href="https://github.com/vvbbnn00/qndxxAutoStudy">Github</a></p>
 </div>
 <script>
-    const LOCAL_URL = `${location.protocol}//${location.host}/result.html`
+    function makeAbsoluteUrl(relativeUrl) {
+        const baseUrl = document.baseURI || window.location.href;
+        return new URL(relativeUrl, baseUrl).href;
+    }
+
+    const LOCAL_URL = makeAbsoluteUrl('result.html')
     const QCSH_OAUTH_INFO_URL = `https://wx.yunban.cn/wx/oauthInfoCallback?r_uri=${encodeURIComponent(LOCAL_URL)}&source=common`
     const qrcode = new QRCode("qrcode", {
         text: QCSH_OAUTH_INFO_URL,
