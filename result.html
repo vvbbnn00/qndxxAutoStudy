@@ -58,7 +58,7 @@
 </div>
 <script>
     const url = new URL(location.href);
-    const nickname = url.searchParams.get('nickname')
+    const nickname = decodeURIComponent(url.searchParams.get('nickname'));
     const avatar = url.searchParams.get('headimg')
     const token_raw = {}
     for (const [key, value] of url.searchParams.entries()) {
