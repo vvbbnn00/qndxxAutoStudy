@@ -61,9 +61,9 @@ class QcshService:
             "cardNo": student_number}, proxies=PROXY)
         ret_json = ret.json()
         if ret_json.get("status") == 200:
-            return ret_json.get("result")
-        logging.error("学习失败：" + json.dumps(ret_json, ensure_ascii=False))
-        return None
+            return True, json.dumps(ret_json.get("result"), ensure_ascii=False)
+        # logging.error("学习失败：" + json.dumps(ret_json, ensure_ascii=False))
+        return False, json.dumps(ret_json, ensure_ascii=False)
 
     def getLastStudyInfo(self):
         ret = requests.get(QCSH_STUDY_LAST_INFO_URL.format(access_token=self.accessToken), headers={

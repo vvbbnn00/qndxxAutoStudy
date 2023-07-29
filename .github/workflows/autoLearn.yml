@@ -4,7 +4,7 @@ name: Learn
 
 on:
   schedule:
-    - cron: '5 8 * * 2'
+    - cron: '30 11 * * 2' # 每周二11时30分开始学习
   # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#providing-inputs
   workflow_dispatch:
     inputs:
@@ -16,8 +16,6 @@ on:
 jobs:
   learn:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 5
 
     steps:
     - uses: actions/checkout@v3
@@ -25,7 +23,7 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.10'
-    - name: start learn
+    - name: Start Learn
       env:
         KEY: ${{ secrets.KEY }}
       run: |

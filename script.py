@@ -13,10 +13,68 @@ import sys
 import logging
 
 from config.api_config import API_VERSION
+from services.messagePush import wechatMessagePush
 from services.qcsh import QcshService
 
 logging.getLogger().setLevel(logging.INFO)
 VERSION = API_VERSION
+
+
+def doStudy():
+    """
+    执行学习任务
+    :return:
+    """
+    logging.info('开始学习...')
+
+    qcshService = QcshService('')
+    try:
+        login_data = json.loads(base64.b64decode(args.login_data[0]))
+    except Exception:
+        logging.error('登录信息解析失败，请检查登录信息是否正确')
+        return False, '登录信息解析失败，请检查登录信息是否正确'
+
+    ret = qcshService.login(login_data)
+    if ret:
+        if args.onAction:  # 消除敏感信息
+            ret = "***"
+        logging.info('登录成功, AccessToken=' + ret)
+    else:
+        logging.error('登录失败，请检查登录信息是否正确')
+        return False, '登录失败，请检查登录信息是否正确'
+
+    nid = args.orgId
+    card_no = args.name
+    subOrg = args.subOrg
+    last_study_info = qcshService.getLastStudyInfo()
+    if not args.onAction:
+        logging.info("最后一次学习的信息如下")
+        logging.info(json.dumps(last_study_info, ensure_ascii=False, indent=4))
+
+    if nid is None:
+        if last_study_info is None:
+            logging.error("未找到最后一次学习的信息，无法自动获取组织ID，请手动输入组织ID")
+            return False, "未找到最后一次学习的信息，无法自动获取组织ID，请手动输入组织ID"
+        logging.warning('未指定组织ID，将使用最后一次学习的组织ID')
+        nid = last_study_info.get("nid")
+        if last_study_info.get("subOrg"):
+            subOrg = last_study_info.get("subOrg")
+
+    if card_no is None:
+        if last_study_info is None:
+            logging.error("未找到最后一次学习的信息，无法自动获取姓名/学号/工号，请手动输入")
+            return False, "未找到最后一次学习的信息，无法自动获取姓名/学号/工号，请手动输入"
+        logging.warning('未指定姓名/学号/工号，将使用最后一次学习的信息')
+        card_no = last_study_info.get("cardNo")
+
+    logging.info("正在尝试提交记录...")
+    success, ret = qcshService.updateStudyRecord(nid, card_no, subOrg)
+    if args.onAction:
+        logging.info(f'学习{"成功" if success else "失败"}')
+    else:
+        logging.info(f'学习{"成功" if success else "失败"}，返回信息：{ret}')
+    return success, ret
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=f'青年大学习自动学习脚本 版本{VERSION}')
@@ -32,50 +90,15 @@ if __name__ == '__main__':
                         help='可选，输入此项后，您的子区域信息将被替换为此项的值，若不填写，则默认为最后一次学习的信息，该项仅在四级组织'
                              '需手动填写时需要填写，若四级组织存在，则请勿填写此项，会导致学习失败',
                         type=str, default=None)
-    parser.add_argument('-v', '--version', help='输出当前版本号，然后退出程序', action='version', version=f'青年大学习自动学习脚本 版本{VERSION}')
+    parser.add_argument('-a', '--onAction', action='store_true', default=False,
+                        help='该选项表示您正在以GitHub Action环境执行自动学习任务，由于在Public仓库中，所有的Action都会留下日志，因此，'
+                             '当启用该选项后，将不会在控制台输出任何个人信息。')
+    parser.add_argument('-wx', '--wechatWebhook', metavar='[企业微信Webhook地址]', default=None,
+                        help='可选，输入此选项后，在学习结束时，会自动向绑定的企业微信机器人发送消息通知。')
+    parser.add_argument('-v', '--version', help='输出当前版本号，然后退出程序', action='version',
+                        version=f'青年大学习自动学习脚本 版本{VERSION}')
     args = parser.parse_args(sys.argv[1:])
 
-    logging.info('开始学习...')
-
-    qcshService = QcshService('')
-    login_data = None
-    try:
-        login_data = json.loads(base64.b64decode(args.login_data[0]))
-    except Exception:
-        logging.error('登录信息解析失败，请检查登录信息是否正确')
-        exit(1)
-
-    ret = qcshService.login(login_data)
-    if ret:
-        logging.info('登录成功, AccessToken=' + ret)
-    else:
-        logging.error('登录失败，请检查登录信息是否正确')
-        exit(1)
-
-    nid = args.orgId
-    card_no = args.name
-    subOrg = args.subOrg
-    last_study_info = qcshService.getLastStudyInfo()
-    logging.info("最后一次学习的信息如下")
-    logging.info(json.dumps(last_study_info, ensure_ascii=False, indent=4))
-
-    if nid is None:
-        if last_study_info is None:
-            logging.error("未找到最后一次学习的信息，无法自动获取组织ID，请手动输入组织ID")
-            exit(1)
-        logging.warning('未指定组织ID，将使用最后一次学习的组织ID')
-        nid = last_study_info.get("nid")
-        if last_study_info.get("subOrg"):
-            subOrg = last_study_info.get("subOrg")
-
-    if card_no is None:
-        if last_study_info is None:
-            logging.error("未找到最后一次学习的信息，无法自动获取姓名/学号/工号，请手动输入")
-            exit(1)
-        logging.warning('未指定姓名/学号/工号，将使用最后一次学习的信息')
-        card_no = last_study_info.get("cardNo")
-
-    logging.info("正在尝试提交记录...")
-    ret = qcshService.updateStudyRecord(nid, card_no, subOrg)
-    if ret:
-        logging.info('学习成功，返回信息：' + json.dumps(ret, ensure_ascii=False, indent=4))
+    success, message = doStudy()
+    if args.wechatWebhook:
+        wechatMessagePush(args.wechatWebhook, success, message)

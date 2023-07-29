@@ -66,12 +66,12 @@ def study():
         nid = last_study_info.get("nid")
         sub_org = last_study_info.get("subOrg")
 
-    study_result = qcshService.updateStudyRecord(nid, card_no, sub_org)
-    if study_result is None:
+    success, study_result = qcshService.updateStudyRecord(nid, card_no, sub_org)
+    if not success:
         return render_template("study.html", study_result="学习失败",
-                               msg="学习失败，请重新扫码登录")
+                               msg="学习失败，请重新扫码登录", data=study_result)
     return render_template("study.html", study_result="学习成功", msg="您已完成学习，可在微信“青年大学习”页面查看学习记录",
-                           data=json.dumps(study_result, ensure_ascii=False))
+                           data=study_result)
 
 
 if __name__ == '__main__':
