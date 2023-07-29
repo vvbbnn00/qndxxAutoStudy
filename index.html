@@ -45,8 +45,9 @@
 
     const LOCAL_URL = makeAbsoluteUrl('result.html')
     const QCSH_OAUTH_INFO_URL = `https://wx.yunban.cn/wx/oauthInfoCallback?r_uri=${encodeURIComponent(LOCAL_URL)}&source=common`
+    const WECHAT_OAUTH_URL = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa693f4127cc93fad&redirect_uri=${encodeURIComponent(QCSH_OAUTH_INFO_URL)}&response_type=code&scope=snsapi_userinfo&state=STATE&component_appid=wx0f0063354bfd3d19&connect_redirect=1`
     const qrcode = new QRCode("qrcode", {
-        text: QCSH_OAUTH_INFO_URL,
+        text: WECHAT_OAUTH_URL,
         width: 256,
         height: 256,
         colorDark: "#000000",
