@@ -2,16 +2,31 @@
 
 [![Learn](https://github.com/vvbbnn00/qndxxAutoStudy/actions/workflows/autoLearn.yml/badge.svg)](https://github.com/vvbbnn00/qndxxAutoStudy/actions/workflows/autoLearn.yml)
 
-
 > 本项目仅供学习交流使用，不得用于商业用途，因使用本项目导致的任何后果，与本人无关。
 
 # 说明
 
-本脚本用于自动完成青年大学习的学习任务，在进行简单的初始化后，您便可摆脱每周的青年大学习打卡的束缚。
-请注意，本脚本仅适用于**上海地区**、且平台为微信公众号**青春上海**的青年大学习任务。使用本脚本前，
-请先保证您的计算机中已安装**Python3.6**或以上版本的Python环境。
+本脚本用于自动完成青年大学习的学习任务，在进行简单的初始化后，您便可摆脱每周的青年大学习打卡的束缚。请注意，本脚本仅
+适用于 **上海地区** 、且平台为微信公众号 **青春上海** 的青年大学习任务。若您需要本地使用，则在使用本脚本前，请先保证您
+的计算机中已安装 **Python3.6** 或以上版本的Python环境。若您选择 **更快的快速上手** 部署项目，则无需安装Python。
 
-# 快速上手
+# 更快的快速上手
+该章节适用于**已经关注了`青春上海`微信公众号**、**已在公众号中留有学习记录**且**没有更改姓名、学号等需求**的用户。
+通过本章节的配置，可以让您直接使用GitHub中的Actions功能自动学习，关于这一部分内容详见 **[GitHub Actions](#进阶)**。
+
+
+1、访问[https://vvbbnn00.github.io/qndxxAutoStudy/](https://vvbbnn00.github.io/qndxxAutoStudy/)，
+微信扫码，记录下获取到的`Token`。
+
+2、Fork该项目，接着，在项目的Settings-Actions secrets and variables-Actions-Secrets处新建一个Secret，
+名称为`KEY`，内容是获取到的`Token`。
+
+3、若您是初次配置，请至`Actions`，点击`I understand my workflows, go ahead and enable
+them`启用`Actions`，在左侧面板找到`Learn`，点击`Enable`启用该任务。
+
+Enjoy🎉
+
+# 快速上手（本地部署）
 
 在使用之前，请确保学习用的微信账号**已经关注了`青春上海`微信公众号**，这十分重要！
 
