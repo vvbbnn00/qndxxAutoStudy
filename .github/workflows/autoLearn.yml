@@ -1,5 +1,3 @@
-# 使用方法，到gitaction配置secret
-# secret的名字是KEY，内容是你从那个二维码获得的结果
 name: Learn
 
 on:
@@ -18,14 +16,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: '3.10'
-    - name: Start Learn
-      env:
-        KEY: ${{ secrets.KEY }}
-      run: |
-        pip3 install -r requirements.txt
-        python3 script.py $KEY
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+      - name: Start Learn
+        env:
+          KEY: ${{ secrets.KEY }}
+          WECHAT_WEBHOOK: ${{ secrets.WECHAT_WEBHOOK }}
+
+        run: |
+          pip3 install -r requirements.txt
+          python3 script.py -a -wx=$WECHAT_WEBHOOK $KEY
