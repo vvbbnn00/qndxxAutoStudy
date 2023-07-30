@@ -12,13 +12,13 @@
 
 # 更快的快速上手
 该章节适用于**已经关注了`青春上海`微信公众号**、**已在公众号中留有学习记录**且**没有更改姓名、学号等需求**的用户。
-通过本章节的配置，可以让您直接使用GitHub中的Actions功能自动学习，关于这一部分内容详见 **[GitHub Actions](#进阶)**。
+通过本章节的配置，可以让您直接使用`GitHub`中的`Actions`功能自动学习，关于这一部分内容详见 **[GitHub Actions](#推荐-github-actions)**。
 
 
 1、访问[https://vvbbnn00.github.io/qndxxAutoStudy/](https://vvbbnn00.github.io/qndxxAutoStudy/)，
 微信扫码，记录下获取到的`Token`。
 
-2、Fork该项目，接着，在项目的Settings-Actions secrets and variables-Actions-Secrets处新建一个Secret，
+2、Fork该项目，接着，在项目的`Settings`-`Actions secrets and variables`-`Actions`-`Secrets`处新建一个`Secret`，
 名称为`KEY`，内容是获取到的`Token`。
 
 3、若您是初次配置，请至`Actions`，点击`I understand my workflows, go ahead and enable
