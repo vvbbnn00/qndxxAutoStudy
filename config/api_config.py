@@ -12,6 +12,8 @@ USER_AGENT = "Mozilla/5.0 (Linux; U; Android 4.1.2; zh-cn; GT-I9300 Build/JZO54K
              "like Gecko) Version/4.0 Mobile Safari/534.30 MicroMessenger/5.2.380 Edg/104.0.5112.81"
 PROXY = None
 
+# 青年大学习服务确认接口地址
+QCSH_CHECK_URL = "https://qcsh.h5yunban.com/youth-learning/cgi-bin/common-api/organization/children"
 # 青年大学习区域列表接口地址
 QCSH_AREA_LIST_URL = "https://qcsh.h5yunban.com/youth-learning/cgi-bin/common-api/organization/children?pid={pid}"
 # 青年大学习获取微信信息接口地址
@@ -34,3 +36,5 @@ QCSH_TOKEN_URL = "https://qcsh.h5yunban.com/youth-learning/cgi-bin/login/we-chat
                  "&nickname={nickname}" \
                  "&headimg={avatar}" \
                  "&callback=https%3A%2F%2Fqcsh.h5yunban.com%2Fyouth-learning%2F&scope=snsapi_userinfo"
+# IP代理池地址
+PROXY_POOL_URL = "https://getproxy.bzpl.tech/get/"

@@ -27,8 +27,11 @@ def getChildrenNode(pid):
 class QcshService:
     accessToken: str
 
-    def __init__(self, access_token):
+    def __init__(self, access_token, proxy=None):
         self.accessToken = access_token
+        if proxy is not None:
+            global PROXY
+            PROXY = proxy
 
     def login(self, login_data):
         open_id = login_data.get("openid")

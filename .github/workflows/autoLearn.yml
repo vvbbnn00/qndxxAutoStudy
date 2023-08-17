@@ -28,4 +28,4 @@ jobs:
 
         run: |
           pip3 install -r requirements.txt
-          python3 script.py -a -wx=$WECHAT_WEBHOOK $KEY
+          python3 script.py -a -p -wx=$WECHAT_WEBHOOK $KEY
