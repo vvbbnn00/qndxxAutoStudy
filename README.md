@@ -13,8 +13,7 @@
 # 更快的快速上手
 
 该章节适用于**已经关注了`青春上海`微信公众号**、**已在公众号中留有学习记录**且**没有更改姓名、学号等需求**的用户。
-通过本章节的配置，可以让您直接使用`GitHub`中的`Actions`功能自动学习，关于这一部分内容详见 *
-*[GitHub Actions](#推荐-github-actions)**。
+通过本章节的配置，可以让您直接使用`GitHub`中的`Actions`功能自动学习，关于这一部分内容详见 **[GitHub Actions](#推荐-github-actions)**。
 
 1、访问[https://vvbbnn00.github.io/qndxxAutoStudy/](https://vvbbnn00.github.io/qndxxAutoStudy/)，
 微信扫码，记录下获取到的`Token`。
