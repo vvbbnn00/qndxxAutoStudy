@@ -52,7 +52,7 @@ class QcshService:
             'Users-Agent': USER_AGENT
         }, proxies=PROXY)
         ret_json = ret.json()
-        return ret_json.get("result").get("id")
+        return ret_json.get("result")[0].get("id")
 
     def updateStudyRecord(self, pid, student_number, subOrg=None):
         ret = requests.post(QCSH_STUDY_URL.format(access_token=self.accessToken), headers={
