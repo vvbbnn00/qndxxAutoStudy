@@ -13,8 +13,7 @@
 # 更快的快速上手
 
 该章节适用于**已经关注了`青春上海`微信公众号**、**已在公众号中留有学习记录**且**没有更改姓名、学号等需求**的用户。
-通过本章节的配置，可以让您直接使用`GitHub`中的`Actions`功能自动学习，关于这一部分内容详见 *
-*[GitHub Actions](#推荐-github-actions)**。
+通过本章节的配置，可以让您直接使用`GitHub`中的`Actions`功能自动学习，关于这一部分内容详见 **[GitHub Actions](#推荐-github-actions)**。
 
 1、访问[https://vvbbnn00.github.io/qndxxAutoStudy/](https://vvbbnn00.github.io/qndxxAutoStudy/)，
 微信扫码，记录下获取到的`Token`。
@@ -141,6 +140,7 @@ variables`-`Actions`-`Secrets`处新建两个Secret，名称和相应内容如�
 |----------------|------------------------------|
 | KEY            | 您获取到的Token，如果还未获取，请参考说明的前半部分 |
 | WECHAT_WEBHOOK | [可选的] 您的企业微信机器人Webhook地址     |
+| DINGDING_WEBHOOK | [可选的] 您的钉钉机器人Webhook地址     |
 
 接着，若您是初次配置，请至`Actions`，点击`I understand my workflows, go ahead and enable
 them`启用`Actions`，在左侧面板找到`Learn`，点击`Enable`启用该任务。
