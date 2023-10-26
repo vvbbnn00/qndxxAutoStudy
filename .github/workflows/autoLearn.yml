@@ -24,8 +24,8 @@ jobs:
       - name: Start Learn
         env:
           KEY: ${{ secrets.KEY }}
-          WECHAT_WEBHOOK: ${{ secrets.WECHAT_WEBHOOK }}
+          DINGDING_WEBHOOK: ${{ secrets.DINGDING_WEBHOOK }}
 
         run: |
           pip3 install -r requirements.txt
-          python3 script.py -a -p -wx=$WECHAT_WEBHOOK $KEY
+          python3 script.py -a -p -dd=$DINGDING_WEBHOOK $KEY
