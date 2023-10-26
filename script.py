@@ -13,7 +13,7 @@ import sys
 import logging
 
 from config.api_config import API_VERSION
-from services.messagePush import wechatMessagePush
+from services.messagePush import wechatMessagePush, dingdingMessagePush
 from services.qcsh import QcshService
 from services.proxies import get_available_proxy
 
@@ -102,6 +102,7 @@ if __name__ == '__main__':
                              '当启用该选项后，将不会在控制台输出任何个人信息。')
     parser.add_argument('-wx', '--wechatWebhook', metavar='[企业微信Webhook地址]', default=None,
                         help='可选，输入此选项后，在学习结束时，会自动向绑定的企业微信机器人发送消息通知。')
+    parser.add_argument('-dd', '--dingdingWebhook', metavar='[钉钉Webhook地址]', default=None,)
     parser.add_argument('-p', '--proxy', action='store_true', default=False,
                         help='自动从代理池中获取代理，若不指定此选项，则不使用代理')
     parser.add_argument('-v', '--version', help='输出当前版本号，然后退出程序', action='version',
@@ -111,3 +112,5 @@ if __name__ == '__main__':
     success, message = doStudy()
     if args.wechatWebhook:
         wechatMessagePush(args.wechatWebhook, success, message)
+    if args.dingdingWebhook:
+        dingdingMessagePush(args.dingdingWebhook, success, message)

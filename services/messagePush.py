@@ -55,3 +55,29 @@ def wechatMessagePush(webhookUrl: str, success: bool, message: str):
         logging.info(f"通过企业微信通知用户，Errcode={ret.get('errcode')}")
     except Exception as e:
         logging.info("wechatMessagePush 请求失败")
+
+
+def dingdingMessagePush(webhookUrl: str, success: bool, message: str):
+    """
+    推送钉钉消息卡片
+
+    :param webhookUrl: 钉钉Webhook地址
+    :param success: 是否成功
+    :param message: 返回消息
+    :return:
+    """
+    messageTemplate = {
+        "msgtype": "markdown",
+        "markdown": {
+            "title": "青年大学习任务完成",
+            "text": "#### [青年大学习](http://news.cyol.com/gb/channels/vrGlAKDl/index.html)任务完成\n" +
+                    "![](https://www.dayimen.net/Public/image/party_2.jpeg)\n\n" +
+                    "> " + ("学习成功" if success else "学习失败") + "\n\n" +
+                    "> " + message + "\n"
+        },
+    }
+    try:
+        ret = requests.post(webhookUrl, json=messageTemplate).json()
+        logging.info(f"通过钉钉通知用户，Errcode={ret.get('errcode')}")
+    except Exception as e:
+        logging.info("dingdingMessagePush 请求失败")
