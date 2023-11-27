@@ -18,7 +18,7 @@
 1、访问[https://vvbbnn00.github.io/qndxxAutoStudy/](https://vvbbnn00.github.io/qndxxAutoStudy/)，
 微信扫码，记录下获取到的`Token`。
 
-2、Fork该项目，接着，在项目的`Settings`-`Actions secrets and variables`-`Actions`-`Secrets`处新建一个`Secret`，
+2、Fork该项目，接着，在项目的`Settings`-`Secrets and variables`-`Actions`-`Repository secrets`处新建一个`Secret`（点击New repository secret），
 名称为`KEY`，内容是获取到的`Token`。
 
 3、若您是初次配置，请至`Actions`，点击`I understand my workflows, go ahead and enable
