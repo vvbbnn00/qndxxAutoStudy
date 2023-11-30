@@ -14,6 +14,7 @@ import requests
 
 from config.api_config import *
 from config.patterns import PATTERN_accessToken
+from urllib.parse import urljoin
 
 
 def getChildrenNode(pid):
@@ -53,6 +54,26 @@ class QcshService:
         }, proxies=PROXY)
         ret_json = ret.json()
         return ret_json.get("result")[0].get("id")
+    
+    def getLatestURL(self):
+        ret = requests.get(QCSH_STUDY_INFO_URL.format(access_token=self.accessToken), headers={
+            'Users-Agent': USER_AGENT
+        }, proxies=PROXY)
+        ret_json = ret.json()
+        return ret_json.get("result")[0].get("uri")
+    
+    def downloadEndPic(self):
+        base_url = self.getLatestURL()
+        local_path = "qndxximg/endimg.jpg"
+        pic_url = urljoin(base_url,"images/end.jpg")
+        response = requests.get(pic_url)
+        if response.status_code == 200:
+            with open(local_path, "wb") as f:
+                f.write(response.content)
+            return True,local_path
+        else:
+            return False,pic_url
+
 
     def updateStudyRecord(self, pid, student_number, subOrg=None):
         ret = requests.post(QCSH_STUDY_URL.format(access_token=self.accessToken), headers={

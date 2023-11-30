@@ -54,6 +54,13 @@ def doStudy():
     card_no = args.name
     subOrg = args.subOrg
     last_study_info = qcshService.getLastStudyInfo()
+    logging.info("正在尝试抓取完成截图")
+    pic_success,pic_path = qcshService.downloadEndPic()
+    if pic_success:
+        logging.info("抓取截图成功，已经保存到当前文件夹下的%s",pic_path);
+    else:
+        logging.error("抓取截图失败，获取的url为",pic_path)
+    
     if not args.onAction:
         logging.info("最后一次学习的信息如下")
         logging.info(json.dumps(last_study_info, ensure_ascii=False, indent=4))
