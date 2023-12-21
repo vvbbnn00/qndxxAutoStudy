@@ -8,6 +8,7 @@ Describe:
 """
 import json
 import logging
+import os
 import re
 
 import requests
@@ -68,6 +69,7 @@ class QcshService:
         pic_url = urljoin(base_url,"images/end.jpg")
         response = requests.get(pic_url)
         if response.status_code == 200:
+            os.makedirs(os.path.dirname(local_path), exist_ok=True)
             with open(local_path, "wb") as f:
                 f.write(response.content)
             return True,local_path
