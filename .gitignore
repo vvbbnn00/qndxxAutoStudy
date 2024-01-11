@@ -105,3 +105,5 @@ venv.bak/
 .mypy_cache/
 logs/
 /logs/
+
+/qndxximg
