@@ -13,12 +13,14 @@
 # 更快的快速上手
 
 该章节适用于**已经关注了`青春上海`微信公众号**、**已在公众号中留有学习记录**且**没有更改姓名、学号等需求**的用户。
-通过本章节的配置，可以让您直接使用`GitHub`中的`Actions`功能自动学习，关于这一部分内容详见 **[GitHub Actions](#推荐-github-actions)**。
+通过本章节的配置，可以让您直接使用`GitHub`中的`Actions`功能自动学习，关于这一部分内容详见
+**[GitHub Actions](#推荐-github-actions)**。
 
 1、访问[https://vvbbnn00.github.io/qndxxAutoStudy/](https://vvbbnn00.github.io/qndxxAutoStudy/)，
 微信扫码，记录下获取到的`Token`。
 
-2、Fork该项目，接着，在项目的`Settings`-`Secrets and variables`-`Actions`-`Repository secrets`处新建一个`Secret`（点击New repository secret），
+2、Fork该项目，接着，在项目的`Settings`-`Secrets and variables`-`Actions`-`Repository secrets`处新建一个`Secret`（点击New
+repository secret），
 名称为`KEY`，内容是获取到的`Token`。
 
 3、若您是初次配置，请至`Actions`，点击`I understand my workflows, go ahead and enable
@@ -83,6 +85,7 @@ python script.py [获取的Token]
 | -wx, --wechatWebhook   | 企业微信Webhook地址   | 可选，输入此选项后，在学习结束时，会自动向绑定的企业微信机器人发送消息通知。                                                    |
 | -dd, --dingdingWebhook | 钉钉Webhook地址     | 可选，输入此选项后，在学习结束时，会自动向绑定的钉钉机器人发送消息通知。                                                      |
 | -p, --proxy            | 是否启用代理          | 启用该选项后，会自动获取可用代理，并通过代理发送请求                                                                |
+| -s, --savePic          | 是否保存学习完成截图      | 启用该选项后，会在学习完成后保存学习完成截图，截图保存在`./qndxximg/`目录下，文件名为`endimg_{时间戳}.jpg`，若不启用该选项，则不会保存截图。      |
 
 ### 例子
 
@@ -136,11 +139,11 @@ Flask应用的端口可以随意更改，但开放Host必须能够从局域网�
 要使用Github Actions，您首先需要`fork`该项目，接着，在项目的`Settings`-`Actions secrets and
 variables`-`Actions`-`Secrets`处新建两个Secret，名称和相应内容如下表
 
-| 键 (Key)        | 值 (Value)                    |
-|----------------|------------------------------|
-| KEY            | 您获取到的Token，如果还未获取，请参考说明的前半部分 |
-| WECHAT_WEBHOOK | [可选的] 您的企业微信机器人Webhook地址     |
-| DINGDING_WEBHOOK | [可选的] 您的钉钉机器人Webhook地址     |
+| 键 (Key)          | 值 (Value)                    |
+|------------------|------------------------------|
+| KEY              | 您获取到的Token，如果还未获取，请参考说明的前半部分 |
+| WECHAT_WEBHOOK   | [可选的] 您的企业微信机器人Webhook地址     |
+| DINGDING_WEBHOOK | [可选的] 您的钉钉机器人Webhook地址       |
 
 接着，若您是初次配置，请至`Actions`，点击`I understand my workflows, go ahead and enable
 them`启用`Actions`，在左侧面板找到`Learn`，点击`Enable`启用该任务。

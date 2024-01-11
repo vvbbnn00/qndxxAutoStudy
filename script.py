@@ -54,6 +54,15 @@ def doStudy():
     card_no = args.name
     subOrg = args.subOrg
     last_study_info = qcshService.getLastStudyInfo()
+
+    if args.savePic:
+        logging.info("正在尝试抓取完成截图")
+        pic_success, pic_path = qcshService.downloadEndPic()
+        if pic_success:
+            logging.info("抓取截图成功，已经保存到当前文件夹下的 %s", pic_path)
+        else:
+            logging.error("抓取截图失败，获取的url为 %s", pic_path)
+
     if not args.onAction:
         logging.info("最后一次学习的信息如下")
         logging.info(json.dumps(last_study_info, ensure_ascii=False, indent=4))
@@ -80,7 +89,7 @@ def doStudy():
         logging.info(f'学习{"成功" if success else "失败"}')
     else:
         logging.info(f'学习{"成功" if success else "失败"}，返回信息：{ret}')
-    return success, ret
+    return success, ret, qcshService.getLatestEndPicURL()
 
 
 if __name__ == '__main__':
@@ -106,12 +115,14 @@ if __name__ == '__main__':
                         help='可选，输入此选项后，在学习结束时，会自动向绑定的钉钉机器人发送消息通知。')
     parser.add_argument('-p', '--proxy', action='store_true', default=False,
                         help='自动从代理池中获取代理，若不指定此选项，则不使用代理')
+    parser.add_argument('-s', '--savePic', action='store_true', default=False,
+                        help='自动保存学习完成截图，若不指定此选项，则不保存')
     parser.add_argument('-v', '--version', help='输出当前版本号，然后退出程序', action='version',
                         version=f'青年大学习自动学习脚本 版本{VERSION}')
     args = parser.parse_args(sys.argv[1:])
 
-    success, message = doStudy()
+    success, message, endPicUrl = doStudy()
     if args.wechatWebhook:
-        wechatMessagePush(args.wechatWebhook, success, message)
+        wechatMessagePush(args.wechatWebhook, success, message, endPicUrl)
     if args.dingdingWebhook:
-        dingdingMessagePush(args.dingdingWebhook, success, message)
+        dingdingMessagePush(args.dingdingWebhook, success, message, endPicUrl)

@@ -11,13 +11,14 @@ import logging
 import requests
 
 
-def wechatMessagePush(webhookUrl: str, success: bool, message: str):
+def wechatMessagePush(webhookUrl: str, success: bool, message: str, endPicUrl: str):
     """
     推送企业微信消息卡片
 
     :param webhookUrl: 企业微信Webhook地址
     :param success: 是否成功
     :param message: 返回消息
+    :param endPicUrl: 完成截图地址
     :return:
     """
     messageTemplate = {
@@ -31,7 +32,7 @@ def wechatMessagePush(webhookUrl: str, success: bool, message: str):
             },
             "main_title": {
                 "title": "任务完成",
-                "desc": "定时任务已完成，以下是任务报告"
+                "desc": "定时任务已完成，以下是任务报告（点击查看截图）"
             },
             "emphasis_content": {
                 "title": "学习成功" if success else "学习失败",
@@ -46,7 +47,7 @@ def wechatMessagePush(webhookUrl: str, success: bool, message: str):
             "jump_list": [],
             "card_action": {
                 "type": 1,
-                "url": "http://news.cyol.com/gb/channels/vrGlAKDl/index.html",
+                "url": endPicUrl or "https://www.dayimen.net/Public/image/party_2.jpeg"
             }
         }
     }
@@ -57,13 +58,14 @@ def wechatMessagePush(webhookUrl: str, success: bool, message: str):
         logging.info("wechatMessagePush 请求失败")
 
 
-def dingdingMessagePush(webhookUrl: str, success: bool, message: str):
+def dingdingMessagePush(webhookUrl: str, success: bool, message: str, endPicUrl: str):
     """
     推送钉钉消息卡片
 
     :param webhookUrl: 钉钉Webhook地址
     :param success: 是否成功
     :param message: 返回消息
+    :param endPicUrl: 完成截图地址
     :return:
     """
     messageTemplate = {
@@ -73,7 +75,8 @@ def dingdingMessagePush(webhookUrl: str, success: bool, message: str):
             "text": "#### [青年大学习](http://news.cyol.com/gb/channels/vrGlAKDl/index.html)任务完成\n" +
                     "![](https://www.dayimen.net/Public/image/party_2.jpeg)\n\n" +
                     "> " + ("学习成功" if success else "学习失败") + "\n\n" +
-                    "> " + message + "\n"
+                    "> " + message + "\n" +
+                    "> [点击查看截图](" + endPicUrl + ")"
         },
     }
     try:
