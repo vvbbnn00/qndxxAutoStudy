@@ -48,8 +48,8 @@ def study():
     except Exception as e:
         return render_template("study.html", study_result="学习失败",
                                msg="登录信息有误，请重新扫码登录")
-    qcshService = QcshService('')
-    ret = qcshService.login(login_data)
+    qcsh_service = QcshService('')
+    ret = qcsh_service.login(login_data)
     if ret is None:
         return render_template("study.html", study_result="学习失败",
                                msg="登录失败，请重新扫码登录")
@@ -58,7 +58,7 @@ def study():
     sub_org = request.args.get("subOrg")
 
     if card_no is None or nid is None:
-        last_study_info = qcshService.getLastStudyInfo()
+        last_study_info = qcsh_service.getLastStudyInfo()
         if last_study_info is None:
             return render_template("study.html", study_result="学习失败",
                                    msg="未查询到您最后一次的学习记录，请先在微信“青年大学习”页面完成一次学习，或使用“自定义URL”提交学习请求")
@@ -66,7 +66,7 @@ def study():
         nid = last_study_info.get("nid")
         sub_org = last_study_info.get("subOrg")
 
-    success, study_result = qcshService.updateStudyRecord(nid, card_no, sub_org)
+    success, study_result = qcsh_service.updateStudyRecord(nid, card_no, sub_org)
     if not success:
         return render_template("study.html", study_result="学习失败",
                                msg="学习失败，请重新扫码登录", data=study_result)

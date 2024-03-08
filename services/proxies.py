@@ -15,20 +15,20 @@ from config.api_config import PROXY_POOL_URL, QCSH_CHECK_URL
 
 # IP 代理服务基于 https://github.com/jhao104/proxy_pool，有需要可以自行搭建
 
-def get_proxy(onAction=False):
+def getProxy(on_action=False):
     """
     获取代理
-    :param onAction: 是否在执行动作
+    :param on_action: 是否在执行动作
     :return:
     """
     logging.info("正在获取代理")
     try:
-        ret = requests.get(PROXY_POOL_URL).json()
+        ret = requests.get(PROXY_POOL_URL, timeout=30).json()
         if ret.get("code") == 0:
             logging.warning("服务端暂时没有可用的代理")
             return None
         else:
-            if onAction:
+            if on_action:
                 logging.info("获取到代理: ***")
             else:
                 logging.info("获取到代理: %s(%s)" % (ret.get('proxy'), ret.get('region')))
@@ -45,7 +45,7 @@ def get_proxy(onAction=False):
         return None
 
 
-def check_proxy(proxy):
+def checkProxy(proxy):
     """
     检查代理是否可用
     :param proxy:
@@ -53,7 +53,7 @@ def check_proxy(proxy):
     """
     logging.info("正在检查代理是否可用")
     try:
-        ret = requests.get(QCSH_CHECK_URL, proxies=proxy)
+        ret = requests.get(QCSH_CHECK_URL, proxies=proxy, timeout=30)
         if ret.status_code == 200:
             logging.info("代理可用")
             return True
@@ -65,20 +65,20 @@ def check_proxy(proxy):
         return False
 
 
-def get_available_proxy(max_tries=5, onAction=False):
+def getAvailableProxy(max_tries=5, on_action=False):
     """
     获取可用代理
     :param max_tries: 最大尝试次数
-    :param onAction: 是否在执行动作
+    :param on_action: 是否在执行动作
     :return: 可用代理
     """
-    proxy = get_proxy(onAction=onAction)
+    proxy = getProxy(on_action=on_action)
     if proxy is None:
         return None
-    if check_proxy(proxy):
+    if checkProxy(proxy):
         return proxy
     else:
         if max_tries > 0:
-            return get_available_proxy(max_tries - 1, onAction=onAction)
+            return getAvailableProxy(max_tries - 1, on_action=on_action)
         else:
             return None

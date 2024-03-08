@@ -9,16 +9,18 @@ Describe:
 import argparse
 import base64
 import json
-import sys
 import logging
+import sys
 
 from config.api_config import API_VERSION
 from services.messagePush import wechatMessagePush, dingdingMessagePush
+from services.proxies import getAvailableProxy
 from services.qcsh import QcshService
-from services.proxies import get_available_proxy
 
 logging.getLogger().setLevel(logging.INFO)
 VERSION = API_VERSION
+
+args = None
 
 
 def doStudy():
@@ -29,36 +31,40 @@ def doStudy():
     logging.info('开始学习...')
     global args
 
+    if args is None:
+        logging.error("参数解析失败")
+        return False, "参数解析失败", None
+
     # 按情况获取代理
     if args.proxy:
-        proxy = get_available_proxy(onAction=args.onAction)
+        proxy = getAvailableProxy()
     else:
         proxy = None
 
-    qcshService = QcshService('', proxy=proxy)
+    qcsh_service = QcshService('', proxy=proxy)
     try:
         login_data = json.loads(base64.b64decode(args.login_data[0]))
     except Exception:
         logging.error('登录信息解析失败，请检查登录信息是否正确')
-        return False, '登录信息解析失败，请检查登录信息是否正确'
+        return False, '登录信息解析失败，请检查登录信息是否正确', None
 
-    ret = qcshService.login(login_data)
+    ret = qcsh_service.login(login_data)
     if ret:
         if args.onAction:  # 消除敏感信息
             ret = "***"
         logging.info('登录成功, AccessToken=' + ret)
     else:
         logging.error('登录失败，请检查登录信息是否正确')
-        return False, '登录失败，请检查登录信息是否正确'
+        return False, '登录失败，请检查登录信息是否正确', None
 
     nid = args.orgId
     card_no = args.name
-    subOrg = args.subOrg
-    last_study_info = qcshService.getLastStudyInfo()
+    sub_org = args.subOrg
+    last_study_info = qcsh_service.getLastStudyInfo()
 
     if args.savePic:
         logging.info("正在尝试抓取完成截图")
-        pic_success, pic_path = qcshService.downloadEndPic()
+        pic_success, pic_path = qcsh_service.downloadEndPic()
         if pic_success:
             logging.info("抓取截图成功，已经保存到当前文件夹下的 %s", pic_path)
         else:
@@ -71,26 +77,26 @@ def doStudy():
     if nid is None:
         if last_study_info is None:
             logging.error("未找到最后一次学习的信息，无法自动获取组织ID，请手动输入组织ID")
-            return False, "未找到最后一次学习的信息，无法自动获取组织ID，请手动输入组织ID"
+            return False, "未找到最后一次学习的信息，无法自动获取组织ID，请手动输入组织ID", None
         logging.warning('未指定组织ID，将使用最后一次学习的组织ID')
         nid = last_study_info.get("nid")
         if last_study_info.get("subOrg"):
-            subOrg = last_study_info.get("subOrg")
+            sub_org = last_study_info.get("subOrg")
 
     if card_no is None:
         if last_study_info is None:
             logging.error("未找到最后一次学习的信息，无法自动获取姓名/学号/工号，请手动输入")
-            return False, "未找到最后一次学习的信息，无法自动获取姓名/学号/工号，请手动输入"
+            return False, "未找到最后一次学习的信息，无法自动获取姓名/学号/工号，请手动输入", None
         logging.warning('未指定姓名/学号/工号，将使用最后一次学习的信息')
         card_no = last_study_info.get("cardNo")
 
     logging.info("正在尝试提交记录...")
-    success, ret = qcshService.updateStudyRecord(nid, card_no, subOrg)
+    success, ret = qcsh_service.updateStudyRecord(nid, card_no, sub_org)
     if args.onAction:
         logging.info(f'学习{"成功" if success else "失败"}')
     else:
         logging.info(f'学习{"成功" if success else "失败"}，返回信息：{ret}')
-    return success, ret, qcshService.getLatestEndPicURL()
+    return success, ret, qcsh_service.getLatestEndPicURL()
 
 
 if __name__ == '__main__':
@@ -122,8 +128,9 @@ if __name__ == '__main__':
                         version=f'青年大学习自动学习脚本 版本{VERSION}')
     args = parser.parse_args(sys.argv[1:])
 
-    success, message, endPicUrl = doStudy()
+    study_success, message, end_pic_url = doStudy()
+
     if args.wechatWebhook:
-        wechatMessagePush(args.wechatWebhook, success, message, endPicUrl)
+        wechatMessagePush(args.wechatWebhook, study_success, message, end_pic_url)
     if args.dingdingWebhook:
-        dingdingMessagePush(args.dingdingWebhook, success, message, endPicUrl)
+        dingdingMessagePush(args.dingdingWebhook, study_success, message, end_pic_url)

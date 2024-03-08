@@ -11,17 +11,17 @@ import logging
 import requests
 
 
-def wechatMessagePush(webhookUrl: str, success: bool, message: str, endPicUrl: str):
+def wechatMessagePush(webhook_url: str, success: bool, message: str, end_pic_url: str):
     """
     推送企业微信消息卡片
 
-    :param webhookUrl: 企业微信Webhook地址
+    :param webhook_url: 企业微信Webhook地址
     :param success: 是否成功
     :param message: 返回消息
-    :param endPicUrl: 完成截图地址
+    :param end_pic_url: 完成截图地址
     :return:
     """
-    messageTemplate = {
+    message_template = {
         "msgtype": "template_card",
         "template_card": {
             "card_type": "text_notice",
@@ -47,28 +47,28 @@ def wechatMessagePush(webhookUrl: str, success: bool, message: str, endPicUrl: s
             "jump_list": [],
             "card_action": {
                 "type": 1,
-                "url": endPicUrl or "https://www.dayimen.net/Public/image/party_2.jpeg"
+                "url": end_pic_url or "https://www.dayimen.net/Public/image/party_2.jpeg"
             }
         }
     }
     try:
-        ret = requests.post(webhookUrl, json=messageTemplate).json()
+        ret = requests.post(webhook_url, json=message_template, timeout=30).json()
         logging.info(f"通过企业微信通知用户，Errcode={ret.get('errcode')}")
     except Exception as e:
-        logging.info("wechatMessagePush 请求失败")
+        logging.info("wechatMessagePush 请求失败, " + str(e))
 
 
-def dingdingMessagePush(webhookUrl: str, success: bool, message: str, endPicUrl: str):
+def dingdingMessagePush(webhook_url: str, success: bool, message: str, end_pic_url: str):
     """
     推送钉钉消息卡片
 
-    :param webhookUrl: 钉钉Webhook地址
+    :param webhook_url: 钉钉Webhook地址
     :param success: 是否成功
     :param message: 返回消息
-    :param endPicUrl: 完成截图地址
+    :param end_pic_url: 完成截图地址
     :return:
     """
-    messageTemplate = {
+    message_template = {
         "msgtype": "markdown",
         "markdown": {
             "title": "青年大学习任务完成",
@@ -76,11 +76,11 @@ def dingdingMessagePush(webhookUrl: str, success: bool, message: str, endPicUrl:
                     "![](https://www.dayimen.net/Public/image/party_2.jpeg)\n\n" +
                     "> " + ("学习成功" if success else "学习失败") + "\n\n" +
                     "> " + message + "\n" +
-                    "> [点击查看截图](" + endPicUrl + ")"
+                    "> [点击查看截图](" + end_pic_url + ")"
         },
     }
     try:
-        ret = requests.post(webhookUrl, json=messageTemplate).json()
+        ret = requests.post(webhook_url, json=message_template, timeout=30).json()
         logging.info(f"通过钉钉通知用户，Errcode={ret.get('errcode')}")
     except Exception as e:
-        logging.info("dingdingMessagePush 请求失败")
+        logging.info("dingdingMessagePush 请求失败, " + str(e))
