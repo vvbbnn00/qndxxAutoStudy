@@ -37,7 +37,7 @@ def doStudy():
 
     # 按情况获取代理
     if args.proxy:
-        proxy = getAvailableProxy()
+        proxy = getAvailableProxy(on_action=args.onAction)
     else:
         proxy = None
 
