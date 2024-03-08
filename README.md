@@ -1,6 +1,8 @@
 # 青年大学习自动学习脚本
 
 [![Learn](https://github.com/vvbbnn00/qndxxAutoStudy/actions/workflows/autoLearn.yml/badge.svg)](https://github.com/vvbbnn00/qndxxAutoStudy/actions/workflows/autoLearn.yml)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/12c954d862304accb60f088f29fab550)](https://app.codacy.com/gh/vvbbnn00/qndxxAutoStudy/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+![GitHub License](https://img.shields.io/github/license/vvbbnn00/qndxxAutoStudy)
 
 > 本项目仅供学习交流使用，不得用于商业用途，因使用本项目导致的任何后果，与本人无关。
 
