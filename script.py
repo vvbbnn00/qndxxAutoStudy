@@ -27,6 +27,7 @@ def doStudy():
     :return:
     """
     logging.info('开始学习...')
+    global args
 
     # 按情况获取代理
     if args.proxy:
