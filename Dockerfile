@@ -8,13 +8,14 @@ WORKDIR /app
 COPY . /app
 
 # 安装requirements.txt中指定的任何所需包
+# 确保requirements.txt中包括gunicorn
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 使端口11451可用于网络之外的通信
 EXPOSE 11451
 
-# 环境变量设置为告诉flask命令在哪里找到应用
+# 环境变量设置为告诉gunicorn命令在哪里找到应用
 ENV FLASK_APP=app.py
 
-# 在容器启动时运行Flask应用
-CMD ["flask", "run", "--host=0.0.0.0", "--port=11451"]
+# 在容器启动时使用Gunicorn运行Flask应用
+CMD ["gunicorn", "--bind", "0.0.0.0:11451", "app:app"]
