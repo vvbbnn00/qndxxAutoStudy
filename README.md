@@ -164,6 +164,12 @@ them`启用`Actions`，在左侧面板找到`Learn`，点击`Enable`启用该任
 
 Linux下可以使用`crontab`命令来编写定时任务，Windows下可以使用`计划任务`来编写定时任务，具体使用方法请自行搜索。
 
+### docker
+在目录运行
+```sh
+ docker-compose up -d
+```
+
 ### 消息推送
 
 **该功能仅通过`script.py`调用时有效。**
