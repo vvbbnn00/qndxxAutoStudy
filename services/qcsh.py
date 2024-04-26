@@ -36,9 +36,11 @@ class QcshService:
 
     def __init__(self, access_token, proxy=None):
         self.access_token = access_token
+        global PROXY
         if proxy is not None:
-            global PROXY
             PROXY = proxy
+        else:
+            PROXY = None
 
     def login(self, login_data):
         """
