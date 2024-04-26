@@ -3,7 +3,7 @@ name: Study Docker Image Push
 on:
   push:
     branches:
-      - main
+      - autostudy
 
 jobs:
   build-and-push:
