@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - autostudy
+  workflow_dispatch:  # 添加此行以启用手动触发
 
 jobs:
   build-and-push:
