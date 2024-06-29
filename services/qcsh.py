@@ -24,6 +24,9 @@ def getChildrenNode(pid):
     """
     获取子节点
     """
+    global PROXY
+    if 'PROXY' not in globals():
+        PROXY = None  # 设置默认代理，或留空
     ret = requests.get(QCSH_AREA_LIST_URL.format(pid=pid), headers={
         'Users-Agent': USER_AGENT
     }, proxies=PROXY, timeout=120)
@@ -38,7 +41,7 @@ class QcshService:
         self.access_token = access_token
         global PROXY
         if proxy is not None:
-            PROXY = proxy
+            PROXY = proxy 
         else:
             PROXY = None
 
