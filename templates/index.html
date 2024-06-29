@@ -34,11 +34,11 @@
 <div class="content">
     <h1>青年大学习自动完成助手</h1>
     <h2>请使用微信扫码登录</h2>
-    <p>请确保您的设备与本计算机在同一局域网环境下。</p>
+    <p>请确保您的设备与本计算机在同一局域网环境下。(若使用的是别人提供的域名服务，请忽略)</p>
     <div id="qrcode"></div>
     <p>版本号：<code>{{ version }}</code></p>
-    <p><a href="https://github.com/vvbbnn00/qndxxAutoStudy">Github</a></p>
-</div>
+    <p><a href="https://github.com/vvbbnn00/qndxxAutoStudy">原作者Github</a></p>
+    <p><a href="https://github.com/14790897/qndxxAutoStudy">我的Github  点个star吧</a></p></div>
 <script>
     var qrcode = new QRCode("qrcode", {
         text: '{{qr_data|safe}}',
